@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'drf.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'products',  # Reemplaza con el nombre de tu base de datos
-        'USER': 'root',        # Reemplaza con tu nombre de usuario
-        'PASSWORD': 'Karc2809..',           # Reemplaza con tu contraseña
-        'HOST': 'localhost',                # O la dirección IP del servidor MySQL
+        'NAME': 'diseno',  # Reemplaza con el nombre de tu base de datos
+        'USER': 'user',        # Reemplaza con tu nombre de usuario
+        'PASSWORD': 'password',           # Reemplaza con tu contraseña
+        'HOST': 'mysql',                # O la dirección IP del servidor MySQL
         'PORT': '3306',                     # Puerto por defecto de MySQL
     }
 }

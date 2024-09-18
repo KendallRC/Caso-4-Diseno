@@ -2,14 +2,24 @@ version: '3'
 
 services:
 
-  #REST_API:
-  # build: ../REST_API
+  rest_api:
+    build:
+      context: ../python  # Contexto de construcción, donde se encuentra el Dockerfile
+    command: gunicorn drf.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ../python/django:/app  # Monta el directorio Django en el contenedor
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    links:
+      - mysql
 
   mysql:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: password   # Cambia la contraseña del root
-      MYSQL_DATABASE: diseño              # Nombre de la base de datos inicial
+      MYSQL_DATABASE: diseno              # Nombre de la base de datos inicial
       MYSQL_USER: user                    # Nombre del usuario
       MYSQL_PASSWORD: password        # Contraseña del usuario
     ports:
@@ -18,8 +28,7 @@ services:
       - mysql_data:/var/lib/mysql       # Persistencia de datos
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  
-  
+      
   #redis:
    # image: redis:7.2-alpine  # Imagen de Redis basada en Alpine
     #ports:
