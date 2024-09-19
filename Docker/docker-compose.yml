@@ -2,42 +2,42 @@ version: '3'
 
 services:
 
-  rest_api:
-    build:
-      context: ../python  # Contexto de construcción, donde se encuentra el Dockerfile
-    command: gunicorn drf.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - ../python/django:/app  # Monta el directorio Django en el contenedor
-    ports:
-      - "8000:8000"
-    depends_on:
-      - mysql
-    links:
-      - mysql
+#  rest_api:
+#    build:
+#      context: ../python  # Contexto de construcción, donde se encuentra el Dockerfile
+#    command: gunicorn drf.wsgi:application --bind 0.0.0.0:8000
+#    volumes:
+#      - ../python/django:/app  # Monta el directorio Django en el contenedor
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - mysql
+#    links:
+#      - mysql
 
-  mysql:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: password   # Cambia la contraseña del root
-      MYSQL_DATABASE: diseno              # Nombre de la base de datos inicial
-      MYSQL_USER: user                    # Nombre del usuario
-      MYSQL_PASSWORD: password        # Contraseña del usuario
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql       # Persistencia de datos
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#  mysql:
+#    image: mysql:latest
+#    environment:
+#      MYSQL_ROOT_PASSWORD: password   # Cambia la contraseña del root
+#      MYSQL_DATABASE: diseno              # Nombre de la base de datos inicial
+#      MYSQL_USER: user                    # Nombre del usuario
+#      MYSQL_PASSWORD: password        # Contraseña del usuario
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - mysql_data:/var/lib/mysql       # Persistencia de datos
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
       
-  #redis:
-   # image: redis:7.2-alpine  # Imagen de Redis basada en Alpine
-    #ports:
-     # - "6379:6379"          # Mapea el puerto 6379 del contenedor al puerto 6379 del host
-    #volumes:
-     # - redis_data:/data     # Volumen persistente para los datos de Redis
+  redis:
+    image: redis:7.2-alpine  # Imagen de Redis basada en Alpine
+    ports:
+      - "6379:6379"          # Mapea el puerto 6379 del contenedor al puerto 6379 del host
+    volumes:
+      - redis_data:/data     # Volumen persistente para los datos de Redis
 
 volumes:
-  mysql_data:
- # redis_data:
+#  mysql_data:
+  redis_data:
 
 
