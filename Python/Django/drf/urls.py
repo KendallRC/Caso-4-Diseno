@@ -17,16 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from api.views import ProductViewSet, ProductViewSet2, ProductViewSet3
+from api.views import ProductosViewSet, ProductosViewSet2, ProductosViewSet3
 
 
 router = DefaultRouter()
-router.register(r'products', ProductViewSet, basename='products')
-router.register(r'products2', ProductViewSet2, basename='products2')
-router.register(r'products3', ProductViewSet3, basename='products3')
-
+router.register(r'productos', ProductosViewSet, basename='productos')  # Esto crea el endpoint /api/productos/
+router.register(r'productos2', ProductosViewSet2, basename='productos2')  # Esto crea el endpoint /api/productos/
+router.register(r'productos3', ProductosViewSet3, basename='productos3')  # Esto crea el endpoint /api/productos/
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+   path('admin/', admin.site.urls),
+   path('api/', include(router.urls)),
+    # Endpoint para obtener el 35% de registros usando conexión con pool
 ]

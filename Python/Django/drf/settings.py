@@ -90,10 +90,23 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'products',  # Reemplaza con el nombre de tu base de datos
-        'USER': 'root',        # Reemplaza con tu nombre de usuario
-        'PASSWORD': 'Karc2809..',           # Reemplaza con tu contraseña
-        'HOST': 'localhost',                # O la dirección IP del servidor MySQL
-        'PORT': '3306',                     # Puerto por defecto de MySQL
+        'USER': 'root',      # Reemplaza con tu nombre de usuario
+        'PASSWORD': 'Karc2809..',  # Reemplaza con tu contraseña
+        'HOST': 'localhost',  # O la dirección IP del servidor MySQL
+        'PORT': '3306',       # Puerto por defecto de MySQL
+    },
+    'pool': {
+        'ENGINE': 'dj_db_conn_pool.backends.mysql',  # Conexión con pool
+        'NAME': 'products',  # Reemplaza con el nombre de tu base de datos
+        'USER': 'root',      # Reemplaza con tu nombre de usuario
+        'PASSWORD': 'Karc2809..',  # Reemplaza con tu contraseña
+        'HOST': 'localhost',  # O la dirección IP del servidor MySQL
+        'PORT': '3306',       # Puerto por defecto de MySQL
+        'POOL_OPTIONS': {
+            'POOL_SIZE': 10,
+            'MAX_OVERFLOW': 10,
+            'RECYCLE': 24 * 60 * 60
+        }
     }
 }
 
