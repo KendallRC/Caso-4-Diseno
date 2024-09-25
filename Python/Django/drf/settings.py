@@ -91,13 +91,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'products',  # Reemplaza con el nombre de tu base de datos
         'USER': 'root',        # Reemplaza con tu nombre de usuario
-        'PASSWORD': 'Karc2809..',           # Reemplaza con tu contraseña
+        'PASSWORD': 'l1ttl3K0d3r',           # Reemplaza con tu contraseña
         'HOST': 'localhost',                # O la dirección IP del servidor MySQL
         'PORT': '3306',                     # Puerto por defecto de MySQL
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

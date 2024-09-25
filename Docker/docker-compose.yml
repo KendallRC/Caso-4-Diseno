@@ -15,18 +15,18 @@ services:
 #    links:
 #      - mysql
 
-#  mysql:
-#    image: mysql:latest
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password   # Cambia la contraseña del root
-#      MYSQL_DATABASE: diseno              # Nombre de la base de datos inicial
-#      MYSQL_USER: user                    # Nombre del usuario
-#      MYSQL_PASSWORD: password        # Contraseña del usuario
-#    ports:
-#      - "3306:3306"
-#    volumes:
-#      - mysql_data:/var/lib/mysql       # Persistencia de datos
-#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password   # Cambia la contraseña del root
+      MYSQL_DATABASE: diseno              # Nombre de la base de datos inicial
+      MYSQL_USER: user                    # Nombre del usuario
+      MYSQL_PASSWORD: password        # Contraseña del usuario
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql       # Persistencia de datos
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
       
   redis:
@@ -37,7 +37,7 @@ services:
       - redis_data:/data     # Volumen persistente para los datos de Redis
 
 volumes:
-#  mysql_data:
+  mysql_data:
   redis_data:
 
 
