@@ -7,7 +7,7 @@ from rest_framework import status
 from .models import Product
 from .serializer import ProductSerializer
 from .cnxMySQL import fetch_products_from_db
-from .redis_config import *
+from django.core.cache import cache
 
 
 class registersResponse:
@@ -48,16 +48,17 @@ class ProductViewSet3(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
     def list(self, request, *args, **kwargs):
-        print(request.query_params.keys())
-        """cache_key = get_cache_key(request)
-        cached_response = get_cached_response(cache_key)
+        
+        from django.core.cache import cache
 
-        if cached_response:
-            return Response(json.loads(cached_response), status=status.HTTP_200_OK)
-        """
-        # Usar el pool de conexiones para consultar los productos
-        query = "SELECT * FROM products WHERE id = 2"  # Consulta SQL personalizada
-        products = fetch_products_from_db(query)
+        cache.set('mi_clave', 'mi_valor', timeout=300)  # Expira en 300 segundos
+
+        valor = cache.get('mi_clave')
+        if valor is None:
+            # Si no hay valor en caché, realiza alguna acción
+            # Usar el pool de conexiones para consultar los productos
+            query = "SELECT * FROM products WHERE id = 2"  # Consulta SQL personalizada
+            products = fetch_products_from_db(query)
 
         # Convertir el resultado a un formato compatible con el serializador
         # Suponemos que 'products' es una lista de diccionarios que coinciden con el modelo Product
@@ -68,4 +69,7 @@ class ProductViewSet3(viewsets.ModelViewSet):
       #  set_cache_response(cache_key, serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+
 
