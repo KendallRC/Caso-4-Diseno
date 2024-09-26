@@ -6,66 +6,49 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Product
 from .serializer import ProductSerializer
-from .cnxMySQL import fetch_products_from_db
-from .redis_config import *
-
-
-class registersResponse:
-    def get_random_sample(self, queryset, percentage=0.35):
-        total_count = queryset.count()
-        sample_size = int(total_count * percentage)
-        return random.sample(list(queryset), sample_size) if total_count > 0 else []
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        porcentaje = 0.35
-        sampled_queryset = self.get_random_sample(queryset, porcentaje)
-        serializer = self.get_serializer(sampled_queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+from django.core.cache import cache
     
+# Obtener el 35% de los registros
+def obtener_porcentaje_registros(queryset, porcentaje):
+        total_registros = queryset.count()
+        cantidad_a_consultar = int(total_registros * porcentaje)
+        return queryset.all()[:cantidad_a_consultar]
 
-class ProductViewSet(registersResponse, viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-class ProductViewSet2(registersResponse, viewsets.ModelViewSet):
-    queryset = Product.objects.all().order_by('name')
-    serializer_class = ProductSerializer
-
-    def list(self, request, *args, **kwargs):
-        # Usar el pool de conexiones para consultar los productos
-        query = "SELECT * FROM products WHERE id = 2"  # Consulta SQL personalizada
-        products = fetch_products_from_db(query)
-
-        # Convertir el resultado a un formato compatible con el serializador
-        # Suponemos que 'products' es una lista de diccionarios que coinciden con el modelo Product
-        serializer = self.get_serializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-
-class ProductViewSet3(viewsets.ModelViewSet):
-    queryset = Product.objects.all().order_by('name')
-    serializer_class = ProductSerializer
+# Endpoint con el 35% de los registros
+class ProductosViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()  # Este es el queryset normal
+    serializer_class = ProductSerializer  # Asegúrate de tener un serializer definido
 
     def list(self, request, *args, **kwargs):
-        print(request.query_params.keys())
-        """cache_key = get_cache_key(request)
-        cached_response = get_cached_response(cache_key)
+        # Endpoint para obtener el 35% de registros usando la conexión normal
+        productos = obtener_porcentaje_registros(self.queryset, 0.35)
+        serializer = self.get_serializer(productos, many=True)
+        return Response(serializer.data)
 
-        if cached_response:
-            return Response(json.loads(cached_response), status=status.HTTP_200_OK)
-        """
-        # Usar el pool de conexiones para consultar los productos
-        query = "SELECT * FROM products WHERE id = 2"  # Consulta SQL personalizada
-        products = fetch_products_from_db(query)
+# Endpoint con el 35% de los registros y el pool connection
+class ProductosViewSet2(viewsets.ModelViewSet):
+    queryset = Product.objects.all()  # Este es el queryset normal
+    serializer_class = ProductSerializer  # Asegúrate de tener un serializer definido
 
-        # Convertir el resultado a un formato compatible con el serializador
-        # Suponemos que 'products' es una lista de diccionarios que coinciden con el modelo Product
-        serializer = self.get_serializer(products, many=True)
+    def list(self, request, *args, **kwargs):
+        # Endpoint para obtener el 35% de registros usando la conexión con pool
+        productos_pool = obtener_porcentaje_registros(Product.objects.using('pool'), 0.35)
+        serializer = self.get_serializer(productos_pool, many=True)
+        return Response(serializer.data)
 
-        print(serializer)
+# Endpoint con el 35% de los registros, el pool connection y la caché de redis
+class ProductosViewSet3(viewsets.ModelViewSet):
+    queryset = Product.objects.all()  # Este es el queryset normal
+    serializer_class = ProductSerializer  # Asegúrate de tener un serializer definido
 
-      #  set_cache_response(cache_key, serializer.data)
+    def list(self, request, *args, **kwargs):
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+        valor = cache.get('mi_clave')
+        if valor is None:
+            # Endpoint para obtener el 50% de registros usando la conexión normal
+            productos_pool = obtener_porcentaje_registros(Product.objects.using('pool'), 0.35)
+            serializer = self.get_serializer(productos_pool, many=True)
+            cache.set('mi_clave', serializer.data, timeout=300)  # Expira en 300 segundos
+        else:
+            return Response(valor)
+        return Response(serializer.data)
