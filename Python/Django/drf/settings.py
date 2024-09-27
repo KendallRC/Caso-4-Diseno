@@ -86,17 +86,17 @@ DATABASES = {
         'PORT': '3306',       # Puerto por defecto de MySQL
     },
     'pool': {
-        'ENGINE': 'dj_db_conn_pool.backends.mysql',  # Conexión con pool
+        'ENGINE': 'mysql.connector.django',  # Conexión con pool
         'NAME': 'diseno',  # Reemplaza con el nombre de tu base de datos
         'USER': 'user',      # Reemplaza con tu nombre de usuario
         'PASSWORD': 'password',  # Reemplaza con tu contraseña
         'HOST': 'mysql',  # O la dirección IP del servidor MySQL
         'PORT': '3306',       # Puerto por defecto de MySQL
-        'POOL_OPTIONS': {
-            'POOL_SIZE': 10,
-            'MAX_OVERFLOW': 10,
-            'RECYCLE': 24 * 60 * 60
-        }
+        'OPTIONS': {
+            'pool_name': 'mypool',
+            'pool_size': 10,  # Tamaño del pool de conexiones
+            'pool_reset_session': True,  # Restablece la sesión después de usar
+        },
     }
 }
 
@@ -112,17 +112,17 @@ DATABASES = {
         'PORT': '3306',       # Puerto por defecto de MySQL
     },
     'pool': {
-        'ENGINE': 'dj_db_conn_pool.backends.mysql',  # Conexión con pool
+        'ENGINE': 'mysql.connector.django',  # Conexión con pool
         'NAME': 'products',  # Reemplaza con el nombre de tu base de datos
         'USER': 'root',      # Reemplaza con tu nombre de usuario
         'PASSWORD': 'Karc2809..',  # Reemplaza con tu contraseña
         'HOST': 'localhost',  # O la dirección IP del servidor MySQL
         'PORT': '3306',       # Puerto por defecto de MySQL
-        'POOL_OPTIONS': {
-            'POOL_SIZE': 10,
-            'MAX_OVERFLOW': 10,
-            'RECYCLE': 24 * 60 * 60
-        }
+        'OPTIONS': {
+            'pool_name': 'mypool',
+            'pool_size': 10,  # Tamaño del pool de conexiones
+            'pool_reset_session': True,  # Restablece la sesión después de usar
+        },
     }
 }
 """

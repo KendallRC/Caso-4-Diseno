@@ -42,13 +42,16 @@ class ProductosViewSet3(viewsets.ModelViewSet):
     serializer_class = ProductSerializer  # Asegúrate de tener un serializer definido
 
     def list(self, request, *args, **kwargs):
-        
-        valor = cache.get('mi_clave')
+
+        param1 = request.query_params.get('numero_producto')  # Si no está, será None
+        print(param1)
+        valor = cache.get(param1)
+        valor = None
         if valor is None:
             # Endpoint para obtener el 50% de registros usando la conexión normal
-            productos_pool = obtener_porcentaje_registros(Product.objects.using('pool'), 0.35)
+            productos_pool = obtener_porcentaje_registros(Product.objects.using('pool').filter(name__icontains=param1), 0.35)
             serializer = self.get_serializer(productos_pool, many=True)
-            cache.set('mi_clave', serializer.data, timeout=300)  # Expira en 300 segundos
+            cache.set(param1, serializer.data, timeout=300)  # Expira en 300 segundos
         else:
             return Response(valor)
         return Response(serializer.data)
