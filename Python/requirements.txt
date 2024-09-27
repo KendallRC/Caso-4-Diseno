@@ -7,3 +7,5 @@ mysqlclient==2.2.4
 redis==5.0.8
 django-db-connection-pool==1.2.5
 django-redis==5.4.0
+prometheus_client==0.21.0
+

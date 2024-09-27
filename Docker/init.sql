@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     description VARCHAR(255)
+
 );
 
 -- Insertar datos aleatorios
@@ -18,7 +19,7 @@ BEGIN
     DECLARE i INT DEFAULT 0;
     WHILE i < 10 DO
         INSERT INTO products (name, description) VALUES
-        (CONCAT('random_text_', FLOOR(RAND() * 10000)), FLOOR(RAND() * 10000));
+        (CONCAT('producto ', @numero := FLOOR(RAND() * 10000)), CONCAT('descripcion del producto ', @numero));
         SET i = i + 1;
     END WHILE;
 END //

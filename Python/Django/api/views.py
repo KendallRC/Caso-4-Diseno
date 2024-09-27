@@ -42,7 +42,7 @@ class ProductosViewSet3(viewsets.ModelViewSet):
     serializer_class = ProductSerializer  # Asegúrate de tener un serializer definido
 
     def list(self, request, *args, **kwargs):
-
+        
         valor = cache.get('mi_clave')
         if valor is None:
             # Endpoint para obtener el 50% de registros usando la conexión normal

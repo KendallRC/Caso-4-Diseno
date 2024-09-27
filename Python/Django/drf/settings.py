@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'api.middleware.PrometheusMiddleware',
 ]
 
 ROOT_URLCONF = 'drf.urls'
@@ -75,17 +76,32 @@ WSGI_APPLICATION = 'drf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'diseno',  # Reemplaza con el nombre de tu base de datos
-        'USER': 'user',        # Reemplaza con tu nombre de usuario
-        'PASSWORD': 'password',           # Reemplaza con tu contraseña
-        'HOST': 'mysql',                # O la dirección IP del servidor MySQL
-        'PORT': '3306',                     # Puerto por defecto de MySQL
+        'USER': 'user',      # Reemplaza con tu nombre de usuario
+        'PASSWORD': 'password',  # Reemplaza con tu contraseña
+        'HOST': 'mysql',  # O la dirección IP del servidor MySQL
+        'PORT': '3306',       # Puerto por defecto de MySQL
+    },
+    'pool': {
+        'ENGINE': 'dj_db_conn_pool.backends.mysql',  # Conexión con pool
+        'NAME': 'diseno',  # Reemplaza con el nombre de tu base de datos
+        'USER': 'user',      # Reemplaza con tu nombre de usuario
+        'PASSWORD': 'password',  # Reemplaza con tu contraseña
+        'HOST': 'mysql',  # O la dirección IP del servidor MySQL
+        'PORT': '3306',       # Puerto por defecto de MySQL
+        'POOL_OPTIONS': {
+            'POOL_SIZE': 10,
+            'MAX_OVERFLOW': 10,
+            'RECYCLE': 24 * 60 * 60
+        }
     }
-}"""
+}
 
+
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -109,12 +125,11 @@ DATABASES = {
         }
     }
 }
-
-
+"""
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/0',  # Cambia el número si necesitas usar otra base de datos en Redis 
+        'LOCATION': 'redis://redis:6379/0',  # Cambia el número si necesitas usar otra base de datos en Redis 
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
