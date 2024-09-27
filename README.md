@@ -10,6 +10,8 @@ Librerías a instalar:
 
 Metricas de Prometheus:
 
+Se accede a prometheus con el localhost:9090
+
 Generales:
 - process_cpu_seconds_total: Tiempo total de CPU usado por cada proceso
 - process_resident_memory_bytes: Cantidad de memoria residente utilizada por cada proceso
