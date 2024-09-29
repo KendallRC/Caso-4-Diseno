@@ -79,23 +79,23 @@ WSGI_APPLICATION = 'drf.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'diseno',  # Reemplaza con el nombre de tu base de datos
-        'USER': 'user',      # Reemplaza con tu nombre de usuario
-        'PASSWORD': 'password',  # Reemplaza con tu contraseña
-        'HOST': 'mysql',  # O la dirección IP del servidor MySQL
-        'PORT': '3306',       # Puerto por defecto de MySQL
+        'NAME': 'diseno',  
+        'USER': 'user',     
+        'PASSWORD': 'password',  
+        'HOST': 'mysql', 
+        'PORT': '3306',       
     },
     'pool': {
-        'ENGINE': 'mysql.connector.django',  # Conexión con pool
-        'NAME': 'diseno',  # Reemplaza con el nombre de tu base de datos
-        'USER': 'user',      # Reemplaza con tu nombre de usuario
-        'PASSWORD': 'password',  # Reemplaza con tu contraseña
-        'HOST': 'mysql',  # O la dirección IP del servidor MySQL
-        'PORT': '3306',       # Puerto por defecto de MySQL
+        'ENGINE': 'mysql.connector.django',  
+        'NAME': 'diseno',  
+        'USER': 'user',      
+        'PASSWORD': 'password',  
+        'HOST': 'mysql',  
+        'PORT': '3306',       
         'OPTIONS': {
             'pool_name': 'mypool',
-            'pool_size': 10,  # Tamaño del pool de conexiones
-            'pool_reset_session': True,  # Restablece la sesión después de usar
+            'pool_size': 10,  
+            'pool_reset_session': True,  
         },
     }
 }
@@ -105,23 +105,23 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'products',  # Reemplaza con el nombre de tu base de datos
-        'USER': 'root',      # Reemplaza con tu nombre de usuario
-        'PASSWORD': 'Karc2809..',  # Reemplaza con tu contraseña
-        'HOST': 'localhost',  # O la dirección IP del servidor MySQL
-        'PORT': '3306',       # Puerto por defecto de MySQL
+        'NAME': 'products',  
+        'USER': 'root',      
+        'PASSWORD': 'Karc2809..',  
+        'HOST': 'localhost',  
+        'PORT': '3306',       
     },
     'pool': {
-        'ENGINE': 'mysql.connector.django',  # Conexión con pool
-        'NAME': 'products',  # Reemplaza con el nombre de tu base de datos
-        'USER': 'root',      # Reemplaza con tu nombre de usuario
-        'PASSWORD': 'Karc2809..',  # Reemplaza con tu contraseña
-        'HOST': 'localhost',  # O la dirección IP del servidor MySQL
-        'PORT': '3306',       # Puerto por defecto de MySQL
+        'ENGINE': 'mysql.connector.django',  
+        'NAME': 'products',  
+        'USER': 'root',      
+        'PASSWORD': 'Karc2809..',  
+        'HOST': 'localhost',  
+        'PORT': '3306',       
         'OPTIONS': {
             'pool_name': 'mypool',
-            'pool_size': 10,  # Tamaño del pool de conexiones
-            'pool_reset_session': True,  # Restablece la sesión después de usar
+            'pool_size': 10, 
+            'pool_reset_session': True,  
         },
     }
 }

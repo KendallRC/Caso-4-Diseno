@@ -16,42 +16,39 @@ def obtener_porcentaje_registros(queryset, porcentaje):
 
 # Endpoint con el 35% de los registros
 class ProductosViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()  # Este es el queryset normal
-    serializer_class = ProductSerializer  # Asegúrate de tener un serializer definido
+    queryset = Product.objects.all()  
+    serializer_class = ProductSerializer  
 
     def list(self, request, *args, **kwargs):
-        # Endpoint para obtener el 35% de registros usando la conexión normal
         productos = obtener_porcentaje_registros(self.queryset, 0.35)
         serializer = self.get_serializer(productos, many=True)
         return Response(serializer.data)
 
 # Endpoint con el 35% de los registros y el pool connection
 class ProductosViewSet2(viewsets.ModelViewSet):
-    queryset = Product.objects.all()  # Este es el queryset normal
-    serializer_class = ProductSerializer  # Asegúrate de tener un serializer definido
+    queryset = Product.objects.all() 
+    serializer_class = ProductSerializer  
 
     def list(self, request, *args, **kwargs):
-        # Endpoint para obtener el 35% de registros usando la conexión con pool
         productos_pool = obtener_porcentaje_registros(Product.objects.using('pool'), 0.35)
         serializer = self.get_serializer(productos_pool, many=True)
         return Response(serializer.data)
 
 # Endpoint con el 35% de los registros, el pool connection y la caché de redis
 class ProductosViewSet3(viewsets.ModelViewSet):
-    queryset = Product.objects.all()  # Este es el queryset normal
-    serializer_class = ProductSerializer  # Asegúrate de tener un serializer definido
+    queryset = Product.objects.all()  
+    serializer_class = ProductSerializer 
 
     def list(self, request, *args, **kwargs):
 
-        param1 = request.query_params.get('numero_producto')  # Si no está, será None
+        param1 = request.query_params.get('numero_producto')  
         print(param1)
         valor = cache.get(param1)
         valor = None
         if valor is None:
-            # Endpoint para obtener el 50% de registros usando la conexión normal
             productos_pool = obtener_porcentaje_registros(Product.objects.using('pool').filter(name__icontains=param1), 0.35)
             serializer = self.get_serializer(productos_pool, many=True)
-            cache.set(param1, serializer.data, timeout=300)  # Expira en 300 segundos
+            cache.set(param1, serializer.data, timeout=300)  
         else:
             return Response(valor)
         return Response(serializer.data)

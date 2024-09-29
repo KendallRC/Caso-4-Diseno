@@ -4,10 +4,10 @@ services:
   # Backend Django (API REST)
   rest_api:
     build:
-      context: ../python  # Ruta al contexto del Dockerfile para Django
+      context: ../python  
     command: gunicorn drf.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - ../python/django:/app   # Monta el directorio de la app Django
+      - ../python/django:/app   
     ports:
       - "8000:8000"
     depends_on:
@@ -21,17 +21,17 @@ services:
   mysql:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: password   # Cambia la contraseña de root
-      MYSQL_DATABASE: diseno              # Nombre de la base de datos
-      MYSQL_USER: user                    # Nombre del usuario
-      MYSQL_PASSWORD: password            # Contraseña del usuario
+      MYSQL_ROOT_PASSWORD: password   
+      MYSQL_DATABASE: diseno             
+      MYSQL_USER: user                    
+      MYSQL_PASSWORD: password            
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql         # Persistencia de los datos
+      - mysql_data:/var/lib/mysql         
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     expose:
-      - "3306"  # Para permitir la exportación de métricas internas
+      - "3306"  
 
   # Redis Service
   redis:
@@ -45,9 +45,9 @@ services:
   prometheus:
     image: prom/prometheus:latest
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Monta el archivo de configuración de Prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml 
     ports:
-      - "9090:9090"  # Puerto de Prometheus
+      - "9090:9090"  
     links:
       - redis-exporter
       - mysqld-exporter
@@ -59,7 +59,7 @@ services:
     environment:
       - REDIS_ADDR=redis:6379
     ports:
-      - "9121:9121"  # Puerto del Redis Exporter para Prometheus
+      - "9121:9121"  
 
   # MySQL Exporter for Prometheus
   mysqld-exporter:
@@ -67,12 +67,12 @@ services:
     environment:
       - DATA_SOURCE_NAME=user:password@(mysql:3306)/diseno
     ports:
-      - "9104:9104"  # Puerto del MySQL Exporter para Prometheus
+      - "9104:9104"  
     links:
       - mysql
     depends_on:
       - mysql
-    restart: always  # Reinicia el exporter si no puede conectarse a MySQL    
+    restart: always  
 
 volumes:
   mysql_data:
