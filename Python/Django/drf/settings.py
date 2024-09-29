@@ -129,7 +129,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/0',  # Cambia el número si necesitas usar otra base de datos en Redis 
+        'LOCATION': 'redis://redis:6379/0',  
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }

@@ -17,7 +17,7 @@ DELIMITER //
 CREATE PROCEDURE insert_random_records()
 BEGIN
     DECLARE i INT DEFAULT 1;  -- Declarar i como variable local e inicializar en 1
-    WHILE i <= 100 DO  -- Cambiar < 10 a <= 10 para incluir el número 10
+    WHILE i <= 59999 DO  -- Cambiar < 10 a <= 10 para incluir el número 10
         INSERT INTO products (name, description) VALUES
         (CONCAT('producto ', i), CONCAT('descripcion del producto ', i));
         SET i = i + 1;  -- Incrementar el contador
