@@ -88,18 +88,93 @@ A continuación se añaden imágenes de las pruebas de 1 minuto de cada endpoint
 
 ## 7. extraiga los resultados obtenidos por el software de pruebas (jmeter o postman), de lo que tenga para monitorear conexiones de base de datos, cpu y memoria del lado de los servidores, tabule toda la información asegurándose de tener medidas de las variables:
 
-Para poder monitorear dichos datos se harán uso de dos medidores de métricas, los cuales corresponden a Prometheus y Docker
+Para poder monitorear dichos datos se harán uso de dos medidores de métricas, los cuales corresponden a Prometheus y Docker. Se accede a Prometheus usando localhost y el puesto 9090. Para indicar las métricas de cada endpoint, este será indicado por el número incial, siendo el 1. el endpoint 1, el 2. el endpoint 2 y el 3. el endpoint 3.
 
 ### Métricas según Prometheus
 
+- cpu, memoria y conexiones de la base de datos para cada endpoint
+
+  - mysql_global_status_queries: Número total de consultas ejecutadas.
+  1. ![alt text](Images/MySQL1.png)
+  2. ![alt text](Images/MySQL2.png)
+  3. ![alt text](Images/MySQL3.png)
+  - mysql_global_status_max_used_connections: El máximo número de conexiones simultáneas utilizadas desde que el servidor se inició.
+  1. ![alt text](Images/MySQL4.png)
+  2. ![alt text](Images/MySQL5.png)
+  3. ![alt text](Images/MySQL6.png)
+  - mysql_global_status_threads_connected
+  1. ![alt text](Images/MySQL7.png)
+  2. ![alt text](Images/MySQL8.png)
+  3. ![alt text](Images/MySQL9.png)
+
+- cpu, memoria y conexiones de redis para cada endpoint
+
+  - redis_memory_used_bytes: Cantidad de memoria utilizada por Redis.
+  1. ![alt text](Images/Redis1.png)
+  2. ![alt text](Images/Redis2.png)
+  3. ![alt text](Images/Redis3.png)
+  - redis_memory_used_peak_bytes: Memoria máxima utilizada por Redis desde que comenzó.
+  1. ![alt text](Images/Redis4.png)
+  2. ![alt text](Images/Redis5.png)
+  3. ![alt text](Images/Redis6.png)
+  - redis_cpu_sys_seconds_total: Tiempo de CPU usado por Redis en modo de sistema.
+  1. ![alt text](Images/Redis7.png)
+  2. ![alt text](Images/Redis8.png)
+  3. ![alt text](Images/Redis9.png)
+  - redis_cpu_user_seconds_total: Tiempo de CPU utilizado por Redis en el espacio de usuario.
+  1. ![alt text](Images/Redis10.png)
+  2. ![alt text](Images/Redis11.png)
+  3. ![alt text](Images/Redis12.png)
+
+- cpu, memoria y conexiones del backend api para cada endpoint
+
+  - http_requests_total: Total de solicitudes HTTP recibidas por la aplicación Django.
+  1. ![alt text](Images/Django1.png)
+  2. ![alt text](Images/Django2.png)
+  3. ![alt text](Images/Django3.png)
+
+- tiempo promedio de respuesta para cada endpoint. (datos según Jmeter)
+  1. ![alt text](Images/Time1.png)
+  2. ![alt text](Images/Time2.png)
+  3. ![alt text](Images/Time3.png)
 
 ### Métricas según Docker
 
+En este caso Docker muestra las las métricas de todo lo que está realizando junto, así que no se hará un apartado como el anterior, así que solo se agregará la imagen y el número de cada endpoint.
 
-  - cpu, memoria y conexiones de la base de datos para cada endpoint
-  - cpu, memoria y conexiones de redis para cada endpoint
-  - cpu, memoria y conexiones del backend api para cada endpoint
-  - tiempo promedio de respuesta para cada endpoint
+Estado inicial de Docker:
+
+![alt text](Images/DockerInicio.png)
+
+1. Datos durante la ejecución del primer endpoint:
+
+![alt text](Images/Docker1.png)
+
+![alt text](Images/Docker2.png)
+
+![alt text](Images/Docker3.png)
+
+![alt text](Images/Docker4.png)
+
+2. Datos durante la ejecución del segundo endpoint:
+
+![alt text](Images/Docker5.png)
+
+![alt text](Images/Docker6.png)
+
+![alt text](Images/Docker7.png)
+
+![alt text](Images/Docker8.png)
+
+3. Datos durante la ejecución del tercer endpoint:
+
+![alt text](Images/Docker9.png)
+
+![alt text](Images/Docker10.png)
+
+![alt text](Images/Docker11.png)
+
+![alt text](Images/Docker12.png)
 
 ## 8. emita las conclusiones cuantitativas basadas en los resultados obtenidos que contrasten los cambios de rendimiento usando el framework seleccionado para REST, la incorporación de pool, y de cache respectivamente
 
@@ -107,47 +182,15 @@ En el punto 6 se realizaron las pruebas, pero sin mostrar los datos arrojados en
 
 1. Prueba EndPoint 1:
 
-
+![alt text](Images/Finish1.png)
+![alt text](Images/Finish2.png)
 
 2. Prueba EndPoint 2:
 
-
+![alt text](Images/Finish3.png)
+![alt text](Images/Finish4.png)
 
 3. Prueba EndPoint 3:
 
-
-
-Metricas de Prometheus:
-
-Se accede a prometheus con el localhost:9090
-
-Generales:
-- process_cpu_seconds_total: Tiempo total de CPU usado por cada proceso
-- process_resident_memory_bytes: Cantidad de memoria residente utilizada por cada proceso
-- process_virtual_memory_bytes: Cantidad de memoria virtual utilizada por cada proceso
-
-Mysql:
-- mysql_global_status_queries: Número total de consultas ejecutadas.
-- mysql_global_status_max_used_connections: El máximo número de conexiones simultáneas utilizadas desde que el servidor se inició.
-- mysql_global_status_threads_connected
-
-
-Redis:
-- redis_memory_used_bytes: Cantidad de memoria utilizada por Redis.
-- redis_memory_used_peak_bytes: Memoria máxima utilizada por Redis desde que comenzó.
-- redis_cpu_sys_seconds_total: Tiempo de CPU usado por Redis en modo de sistema.
-- redis_cpu_user_seconds_total: Tiempo de CPU utilizado por Redis en el espacio de usuario.
-- redis_total_connections_received: Total de conexiones recibidas.
-
-Django:
-- http_requests_total: Total de solicitudes HTTP recibidas por la aplicación Django.
-- http_request_duration_seconds: Latencia de las solicitudes HTTP.
-- http_request_size_bytes: Tamaño de las solicitudes HTTP entrantes.
-- http_response_size_bytes: Tamaño de las respuestas HTTP enviadas.
-
-
-Metricas de docker:
-
-- Comando: Docker stats 
-- Grafico desde containers/redis-1, mysql-1, rest-api-1/stats
-
+![alt text](Images/Finish5.png)
+![alt text](Images/Finish6.png)
